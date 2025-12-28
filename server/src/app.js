@@ -27,7 +27,7 @@ app.use("/users", userRoutes);
 app.use("/interviews", interviewRoutes);
 
 app.get("/", (req, res) => {
-  res.send("AI Interview Scheduler API running");
+  res.status(200).send("AI Interview Scheduler API running");
 });
 
 const PORT = process.env.PORT || 5000;
