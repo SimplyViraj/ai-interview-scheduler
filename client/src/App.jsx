@@ -5,8 +5,14 @@ import CandidateDashboard from "./pages/CandidateDashboard";
 import InterviewerDashboard from "./pages/InterviewerDashboard";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import { AuthProvider } from "./auth/AuthContext";
-
+import { useEffect } from "react";
+import api from "./api/api";
 export default function App() {
+  useEffect(() => {
+  api.get("/")
+    .then(res => console.log("Backend says:", res.data))
+    .catch(err => console.error("Backend error:", err));
+}, []);
   return (
     <AuthProvider>
       <Routes>
