@@ -1,25 +1,43 @@
 export function matchSlots(candidateSlots, interviewerSlots) {
   const matches = [];
+  const SLOT_MS = 60 * 60 * 1000; // 1 hour
 
+  console.log("=== MATCHER INPUT ===");
 
-  for (let c of candidateSlots) {
-    for (let i of interviewerSlots) {
-      const start = new Date(Math.max(new Date(c.start), new Date(i.start)));
-      const end = new Date(Math.min(new Date(c.end), new Date(i.end)));
+  candidateSlots.forEach(s =>
+    console.log("Candidate:", s.start.toISOString(), "→", s.end.toISOString())
+  );
 
-      if (start < end) {
-        const duration = (end - start) / 60000;
+  interviewerSlots.forEach(s =>
+    console.log("Interviewer:", s.start.toISOString(), "→", s.end.toISOString())
+  );
+
+  for (const c of candidateSlots) {
+    for (const i of interviewerSlots) {
+      const overlapStart = new Date(
+        Math.max(new Date(c.start), new Date(i.start))
+      );
+      const overlapEnd = new Date(
+        Math.min(new Date(c.end), new Date(i.end))
+      );
+
+      if (overlapStart >= overlapEnd) continue;
+
+      let cursor = new Date(overlapStart);
+
+      while (cursor.getTime() + SLOT_MS <= overlapEnd.getTime()) {
         matches.push({
-          start,
-          end,
-          score: duration
+          start: new Date(cursor),
+          end: new Date(cursor.getTime() + SLOT_MS),
+          score: 60 // minutes
         });
+
+        cursor = new Date(cursor.getTime() + SLOT_MS);
       }
     }
   }
-  console.log("[MATCHER] candidateSlots:", candidateSlots, "interviewerSlots:", interviewerSlots, "matches:", matches);
 
-  return matches
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 3);
+  console.log("[MATCHER OUTPUT]", matches);
+
+  return matches.slice(0, 3);
 }

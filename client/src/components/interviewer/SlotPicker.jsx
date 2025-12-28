@@ -1,4 +1,5 @@
 import api from "../../api/api";
+
 export default function SlotPicker({
   slots,
   interviewId,
@@ -18,21 +19,29 @@ export default function SlotPicker({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-      <div className="bg-white p-6 rounded w-[800px]">
-        <h3 className="text-lg font-bold mb-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div
+        className="
+          w-full max-w-4xl
+          rounded-2xl p-6
+          bg-neutral-900/90
+          border border-neutral-800
+          shadow-2xl
+        "
+      >
+        <h3 className="text-base font-semibold text-neutral-100 mb-6">
           Interview Slot Selection
         </h3>
 
         <div className="grid grid-cols-2 gap-6">
           {/* PROPOSED SLOTS */}
-          <div>
-            <h4 className="font-semibold mb-2">
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-neutral-200">
               Proposed Slots
             </h4>
 
             {proposedSlots.length === 0 && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-neutral-500">
                 No valid overlapping slots
               </p>
             )}
@@ -40,16 +49,27 @@ export default function SlotPicker({
             {proposedSlots.map((s, i) => (
               <div
                 key={i}
-                className="border p-3 rounded mb-2 flex justify-between items-center"
+                className="
+                  flex items-center justify-between gap-4
+                  rounded-xl px-4 py-3
+                  bg-neutral-950
+                  border border-neutral-800
+                "
               >
-                <span className="text-sm">
+                <span className="text-sm text-neutral-300">
                   {new Date(s.start).toLocaleString()} –{" "}
                   {new Date(s.end).toLocaleString()}
                 </span>
 
                 <button
-                  className="bg-black text-white px-3 py-1 rounded"
                   onClick={() => confirmSlot(i)}
+                  className="
+                    px-3 py-1.5 rounded-lg
+                    text-xs font-medium
+                    bg-neutral-800 text-neutral-100
+                    hover:bg-neutral-700
+                    transition-colors
+                  "
                 >
                   Confirm
                 </button>
@@ -58,13 +78,13 @@ export default function SlotPicker({
           </div>
 
           {/* REJECTED SLOTS */}
-          <div>
-            <h4 className="font-semibold mb-2 text-red-600">
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-neutral-400">
               Rejected Slots
             </h4>
 
             {rejectedSlots.length === 0 && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-neutral-500">
                 None
               </p>
             )}
@@ -72,13 +92,17 @@ export default function SlotPicker({
             {rejectedSlots.map((s, i) => (
               <div
                 key={i}
-                className="border border-red-300 bg-red-50 p-3 rounded mb-2"
+                className="
+                  rounded-xl px-4 py-3
+                  bg-neutral-950/60
+                  border border-neutral-800
+                "
               >
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-neutral-400">
                   {new Date(s.start).toLocaleString()} –{" "}
                   {new Date(s.end).toLocaleString()}
                 </p>
-                <p className="text-xs text-red-500 mt-1">
+                <p className="text-xs text-neutral-500 mt-1">
                   No overlap
                 </p>
               </div>
@@ -88,7 +112,12 @@ export default function SlotPicker({
 
         <button
           onClick={onClose}
-          className="mt-6 underline text-sm"
+          className="
+            mt-6 text-sm
+            text-neutral-400
+            hover:text-neutral-200
+            transition-colors
+          "
         >
           Close
         </button>
@@ -96,4 +125,3 @@ export default function SlotPicker({
     </div>
   );
 }
-
