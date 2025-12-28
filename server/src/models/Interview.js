@@ -8,6 +8,11 @@ const interviewSchema = new mongoose.Schema({
     end: Date,
     score: Number
   }],
+  confirmedSlot: {
+  start: Date,
+  end: Date
+},
+
   status: { type: String, default: "proposed" }
 }, { timestamps: true });
 
