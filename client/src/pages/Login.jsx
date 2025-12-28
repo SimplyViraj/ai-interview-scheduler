@@ -27,6 +27,13 @@ export default function Login() {
         <input {...register("password")} type="password" placeholder="Password" className="input mt-2" />
         <button className="btn mt-4 w-full">Login</button>
       </form>
+      <p className="text-sm mt-4 text-center">
+  Don’t have an account?{" "}
+  <a href="/register" className="underline">
+    Register
+  </a>
+</p>
+
     </div>
   );
 }

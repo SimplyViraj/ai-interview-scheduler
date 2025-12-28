@@ -19,6 +19,10 @@ export async function confirmInterview(req, res) {
   if (!slot) {
     return res.status(400).json({ message: "Invalid slot index" });
   }
+  if (interview.status === "confirmed") {
+  return res.status(400).json({ message: "Interview already confirmed" });
+    }
+
 
   interview.confirmedSlot = slot;
   interview.status = "confirmed";

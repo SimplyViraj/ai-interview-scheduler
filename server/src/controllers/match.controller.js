@@ -38,7 +38,8 @@ export async function matchInterview(req, res) {
   const interview = await Interview.create({
     candidateId,
     interviewerId,
-    proposedSlots
+    proposedSlots,
+    status: "proposed"
   });
 
   res.json({

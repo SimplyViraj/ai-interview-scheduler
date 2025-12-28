@@ -12,14 +12,20 @@ const interviewRequestSchema = new mongoose.Schema(
       ref: "User",
       required: true
     },
+
     availabilityId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Availability",
       required: true
     },
+    interviewerAvailabilityId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Availability"
+    },
+
     status: {
       type: String,
-      enum: ["pending", "matched", "rejected"],
+      enum: ["pending", "matched"],
       default: "pending"
     }
   },
