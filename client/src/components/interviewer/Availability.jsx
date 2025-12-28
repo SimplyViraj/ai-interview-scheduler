@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../../api/api";
+
 export default function Availability({ request, onNext, onClose }) {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -7,38 +8,72 @@ export default function Availability({ request, onNext, onClose }) {
   const submit = async () => {
     setLoading(true);
 
-    await api.post("/requests/interviewer-availability", {
-      requestId: request._id,
-      rawText: text
-    });
+    try {
+      await api.post("/requests/interviewer-availability", {
+        requestId: request._id,
+        rawText: text,
+      });
 
-    const res = await api.post("/requests/match-slots", {
-      requestId: request._id
-    });
+      const res = await api.post("/requests/match-slots", {
+        requestId: request._id,
+      });
 
-    onNext(res.data); // { interviewId, proposedSlots }
+      onNext(res.data);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-      <div className="bg-white p-6 rounded w-96">
-        <h3 className="font-bold mb-2">Your Availability</h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-md rounded-2xl bg-neutral-900/90 p-6 shadow-2xl border border-white/5">
+        
+        <div className="mb-4">
+          <h3 className="text-base font-semibold text-neutral-100">
+            Share your availability
+          </h3>
+          <p className="text-xs text-neutral-400 mt-1">
+            Describe the times you’re available for an interview
+          </p>
+        </div>
 
         <textarea
-          className="w-full text-black border p-2 rounded"
-          placeholder="e.g. Tomorrow 2pm to 5pm"
           value={text}
           onChange={(e) => setText(e.target.value)}
+          placeholder="e.g. Tomorrow between 2:00 PM and 5:00 PM"
+          className="
+            w-full min-h-[100px] resize-none rounded-xl
+            bg-neutral-950 border border-neutral-800
+            px-4 py-3 text-sm text-neutral-100
+            placeholder:text-neutral-500
+            focus:outline-none focus:ring-1 focus:ring-neutral-700
+          "
         />
 
-        <div className="flex justify-end gap-2 mt-3">
-          <button onClick={onClose}>Cancel</button>
+        <div className="mt-5 flex justify-end gap-3">
+          <button
+            onClick={onClose}
+            className="
+              px-4 py-2 rounded-lg text-sm font-medium
+              text-neutral-400 hover:text-neutral-200
+              hover:bg-white/5 transition-colors
+            "
+          >
+            Cancel
+          </button>
+
           <button
             onClick={submit}
             disabled={loading}
-            className="bg-black text-white px-3 py-1 rounded"
+            className="
+              px-4 py-2 rounded-lg text-sm font-medium
+              bg-neutral-800 text-neutral-100
+              hover:bg-neutral-700
+              disabled:opacity-50 disabled:cursor-not-allowed
+              transition-colors
+            "
           >
-            Next
+            {loading ? "Processing…" : "Next"}
           </button>
         </div>
       </div>

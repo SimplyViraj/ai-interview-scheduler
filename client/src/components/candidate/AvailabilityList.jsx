@@ -31,24 +31,50 @@ export default function AvailabilityList({ interviewer, onDone }) {
   };
 
   return (
-    <div className="border p-4 rounded mt-4">
-      <h4 className="font-semibold mb-2">
-        Availability for {interviewer.name}
+    <div
+      className="
+        mt-6 rounded-xl p-5
+        bg-neutral-900/80
+        border border-neutral-800
+        shadow-sm
+      "
+    >
+      <h4 className="text-sm font-medium text-neutral-100 mb-3">
+        Availability for{" "}
+        <span className="text-neutral-300">{interviewer.name}</span>
       </h4>
 
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="w-full border p-2 rounded"
         placeholder="e.g. Tomorrow 10am–1pm IST"
+        className="
+          w-full min-h-[90px] resize-none
+          rounded-lg
+          bg-neutral-950
+          border border-neutral-800
+          px-4 py-3
+          text-sm text-neutral-100
+          placeholder:text-neutral-500
+          focus:outline-none
+          focus:ring-1 focus:ring-neutral-700
+        "
       />
 
       <button
         onClick={submit}
         disabled={loading}
-        className="mt-3 px-4 py-2 bg-black text-white rounded"
+        className="
+          mt-4 inline-flex items-center justify-center
+          rounded-lg px-4 py-2
+          text-sm font-medium
+          bg-neutral-800 text-neutral-100
+          hover:bg-neutral-700
+          disabled:opacity-50 disabled:cursor-not-allowed
+          transition-colors
+        "
       >
-        {loading ? "Sending..." : "Send Request"}
+        {loading ? "Sending…" : "Send Request"}
       </button>
     </div>
   );
