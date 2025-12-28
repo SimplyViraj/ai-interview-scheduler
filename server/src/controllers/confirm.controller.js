@@ -32,9 +32,12 @@ export async function confirmInterview(req, res) {
   const candidate = await User.findById(interview.candidateId);
   const interviewer = await User.findById(interview.interviewerId);
 
-  // Send calendar invite to both
+try {
   await sendInvite(candidate.email, slot);
   await sendInvite(interviewer.email, slot);
+} catch (err) {
+  console.error("Email sending failed:", err.response?.body || err.message);
+}
 
   res.json({
     message: "Interview confirmed and invites sent",

@@ -2,43 +2,67 @@ import { useEffect, useState } from "react";
 import api from "../../api/api";
 
 export default function CandidateMeetings({ refreshKey }) {
-  const [proposed, setProposed] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
   const [confirmed, setConfirmed] = useState([]);
 
   useEffect(() => {
-    api.get("/interviews").then((res) => {
+    // pending requests (no interview yet)
+    api.get("/requests/my").then(res => {
+      setPendingRequests(res.data);
+    });
+
+    // interviews (proposed + confirmed)
+    api.get("/interviews").then(res => {
       const interviews = res.data;
-      setProposed(interviews.filter(i => i.status === "proposed"));
       setConfirmed(interviews.filter(i => i.status === "confirmed"));
     });
   }, [refreshKey]);
 
   return (
     <div>
-      <h3 className="text-lg font-semibold mb-4">My Interviews</h3>
+      <h3 className="text-lg font-semibold mb-4">
+        My Meetings
+      </h3>
 
+      {/* PENDING REQUESTS */}
       <div className="mb-6">
-        <h4 className="font-medium mb-2">Awaiting Confirmation</h4>
-        {proposed.length === 0 && (
+        <h4 className="font-medium mb-2">
+          Awaiting Interviewer Response
+        </h4>
+
+        {pendingRequests.length === 0 && (
           <p className="text-sm text-gray-500">None</p>
         )}
-        {proposed.map(i => (
-          <div key={i._id} className="border p-2 rounded mb-2">
+
+        {pendingRequests.map(r => (
+          <div key={r._id} className="border p-3 rounded mb-2">
             <p className="text-sm">
-              Interviewer: {i.interviewerId?.name}
+              Interviewer:{" "}
+              <span className="font-medium">
+                {r.interviewerId.name}
+              </span>
             </p>
           </div>
         ))}
       </div>
 
+      
+      {/* CONFIRMED */}
       <div>
-        <h4 className="font-medium mb-2">Confirmed</h4>
+        <h4 className="font-medium mb-2">
+          Confirmed
+        </h4>
+
         {confirmed.length === 0 && (
           <p className="text-sm text-gray-500">None</p>
         )}
+
         {confirmed.map(i => (
-          <div key={i._id} className="border p-2 rounded mb-2">
-            <p className="text-sm">
+          <div key={i._id} className="border p-3 rounded mb-2">
+            <p className="text-sm font-medium">
+              {i.interviewerId.name}
+            </p>
+            <p className="text-sm text-gray-600">
               {new Date(i.confirmedSlot.start).toLocaleString()} –{" "}
               {new Date(i.confirmedSlot.end).toLocaleString()}
             </p>

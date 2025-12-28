@@ -129,3 +129,12 @@ export async function matchRequestSlots(req, res) {
     proposedSlots
   });
 }
+export async function getRequestsForCandidate(req, res) {
+  const requests = await InterviewRequest.find({
+    candidateId: req.user._id,
+    status: "pending"
+  })
+    .populate("interviewerId", "name email");
+
+  res.json(requests);
+}

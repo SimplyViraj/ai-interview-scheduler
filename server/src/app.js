@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 
@@ -26,6 +28,9 @@ app.use("/confirm", confirmRoutes);
 app.use("/requests", requestRoutes);
 app.use("/users", userRoutes);
 app.use("/interviews", interviewRoutes);
+
+console.log("SENDGRID_FROM_EMAIL =", process.env.SENDGRID_FROM_EMAIL);
+
 
 
 export default app;

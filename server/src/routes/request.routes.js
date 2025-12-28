@@ -3,7 +3,7 @@ import {
   createRequest,
   getRequestsForInterviewer,
   submitInterviewerAvailability,
-  matchRequestSlots
+  matchRequestSlots,getRequestsForCandidate
 } from "../controllers/request.controller.js";
 import { protect } from "../middlewares/auth.middleware.js";
 
@@ -20,5 +20,8 @@ router.post("/interviewer-availability", protect, submitInterviewerAvailability)
 
 // match slots only after interviewer availability
 router.post("/match-slots", protect, matchRequestSlots);
+
+router.get("/my", protect, getRequestsForCandidate);
+
 
 export default router;
