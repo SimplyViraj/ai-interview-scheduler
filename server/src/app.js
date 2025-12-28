@@ -6,6 +6,9 @@ import availabilityRoutes from "./routes/availability.routes.js";
 import matchRoutes from "./routes/match.routes.js";
 import confirmRoutes from "./routes/confirm.routes.js";
 import requestRoutes from "./routes/request.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import interviewRoutes from "./routes/interview.routes.js";
+
 
 
 
@@ -21,5 +24,8 @@ app.use("/availability", availabilityRoutes);
 app.use("/match", matchRoutes);
 app.use("/confirm", confirmRoutes);
 app.use("/requests", requestRoutes);
+app.use("/users", userRoutes);
+app.use("/interviews", interviewRoutes);
+
 
 export default app;
