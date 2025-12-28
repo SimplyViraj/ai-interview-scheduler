@@ -5,6 +5,8 @@ import authRoutes from "./routes/auth.routes.js";
 import availabilityRoutes from "./routes/availability.routes.js";
 import matchRoutes from "./routes/match.routes.js";
 import confirmRoutes from "./routes/confirm.routes.js";
+import requestRoutes from "./routes/request.routes.js";
+
 
 
 
@@ -18,5 +20,6 @@ app.use("/auth", authRoutes);
 app.use("/availability", availabilityRoutes);
 app.use("/match", matchRoutes);
 app.use("/confirm", confirmRoutes);
+app.use("/requests", requestRoutes);
 
 export default app;
