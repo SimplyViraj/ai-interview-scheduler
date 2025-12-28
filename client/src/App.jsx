@@ -8,6 +8,8 @@ import { AuthProvider } from "./auth/AuthContext";
 import { useEffect } from "react";
 import api from "./api/api";
 export default function App() {
+  console.log("APP RENDERED");
+
   useEffect(() => {
   api.get("/")
     .then(res => console.log("Backend says:", res.data))
