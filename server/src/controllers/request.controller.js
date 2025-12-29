@@ -30,9 +30,6 @@ export async function createRequest(req, res) {
   res.status(201).json(request);
 }
 
-/**
- * Interviewer fetches pending requests
- */
 export async function getRequestsForInterviewer(req, res) {
   const requests = await InterviewRequest.find({
     interviewerId: req.user._id,
@@ -46,9 +43,6 @@ export async function getRequestsForInterviewer(req, res) {
   res.json(requests);
 }
 
-/**
- * Interviewer submits availability AFTER clicking a request
- */
 export async function submitInterviewerAvailability(req, res) {
   const { requestId, rawText } = req.body;
 
@@ -61,10 +55,9 @@ export async function submitInterviewerAvailability(req, res) {
     return res.status(403).json({ message: "Forbidden" });
   }
 
-  // 🔥 AI PARSING HAPPENS HERE
   const slots = await parseAvailability(
     rawText,
-    new Date() // reference = NOW
+    new Date() 
   );
 
   const availability = await Availability.create({
@@ -80,9 +73,6 @@ export async function submitInterviewerAvailability(req, res) {
 }
 
 
-/**
- * Match slots ONLY after interviewer availability exists
- */
 export async function matchRequestSlots(req, res) {
   const { requestId } = req.body;
 

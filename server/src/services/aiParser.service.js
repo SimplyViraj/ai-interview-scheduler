@@ -4,19 +4,24 @@ export async function parseAvailability(text, timezone) {
   const currentDateTime = new Date().toISOString();
   const prompt = `
 You are an assistant that extracts interview availability.
-The current date and time is: ${currentDateTime} (timezone: ${timezone}).
 
-If the user says "tomorrow", "next Monday", or similar,
-resolve it relative to the current date and time.
-Return absolute ISO 8601 timestamps only.
-Provide the availability as a JSON array of objects with "start" and "end" fields.
-Return ONLY valid JSON array.
+Current date and time: ${currentDateTime}
+Timezone: ${timezone}
+
+Rules:
+- Resolve relative dates (tomorrow, next Monday, next week, etc.)
+- Expand recurrences into multiple slots if needed
+- Return absolute ISO 8601 timestamps
+- Return ONLY a JSON array
+- No explanations, no markdown
+
 Format:
 [
   { "start": "ISO8601", "end": "ISO8601" }
 ]
 
-Text: "${text}"
+Text:
+"${text}"
 `;
 
   try {

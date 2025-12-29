@@ -77,7 +77,6 @@ export default function SlotPicker({
             ))}
           </div>
 
-          {/* REJECTED SLOTS */}
           <div className="space-y-3">
             <h4 className="text-sm font-medium text-neutral-400">
               Rejected Slots
